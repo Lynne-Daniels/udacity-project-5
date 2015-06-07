@@ -1,0 +1,148 @@
+Project Five Resources
+
+Udacity AJAX and JavaScript Design classes
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.1.0.js"></script>
+
+Google Map Tutorial --	https://developers.google.com/maps/documentation/javascript/tutorial#api_key
+
+Better Google Map Tutorial -- https://developers.google.com/maps/documentation/javascript/examples/map-simple
+
+the map would not dispaly from local copy b/c API not allowing.  used src="https://maps.googleapis.com/maps/api/js?v=3.exp"  Thei got rd of error message, but still cannot see the map.  Added the sytles from the 2nd tutorial et voila, le map.
+
+https://developers.google.com/maps/documentation/javascript/markers#add
+
+https://developers.google.com/maps/documentation/javascript/examples/icon-complex
+explains how to add multiple markers
+
+Ok, waypoints now are on the map. Need to get the track on the map next.
+
+Read https://developers.google.com/maps/documentation/javascript/examples/polyline-simple.  Hmm...looks tedius and I bet has a size limit.
+
+Will try this way https://developers.google.com/maps/documentation/javascript/examples/layer-kml
+
+I am using Garmin Base Camp to grab coordinates for waypoints and to make the KML file.  I had the original .gpx track from riding around with a Garmin Dakota GPS recording info.
+
+got stuck on the link to the kml file.  file:///C:/Users/Lynne/My%20Documents/Aptana%20Studio%203%20Workspace/floridabiketrailgpsdata/palm-beach-epic.kml is not working.  url: '/gpsdata/palm-beach-epic.kml' is not working
+
+OH, DUH....thank you stackoverflow
+http://stackoverflow.com/questions/3514785/loading-a-local-kml-file-using-google-maps
+"The KML can't be accessed since it's on your local machine and google can't access that since it doesn't know how to get to localhost:8080"
+
+Yay...the track is on the screen.  Had to host the track where google can see it.  Better read the chapter on formatting now.  Every trackpoint has an uneccesary huge ugly marker.
+
+WOW...I noticed a change I need in the KML file.  Made the change, uploaded it.  No change on the google map.  Deleted the file.  cleared the cache.  The orginal KML is undead.  Will rename the new version.
+
+ok, renaming works.  Now to deal with the giant ugly trackpoint markers.  cant find easy documentation so start deleting stuff from the kml file.
+
+cut <Style id="point"><IconStyle><scale>0.9</scale><Icon><href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href></Icon></IconStyle></Style>
+
+and
+
+<Style><IconStyle><scale>0.9</scale><Icon><href>http://connect.garmin.com/image/main/icons/kml/grn-play.png</href></Icon></IconStyle></Style>
+
+Hrumph...that got rid of the big black circles, but now I see what must be google's default big blue markers.
+
+Used http://www.xiconeditor.com/ to make a 4 pixel png to use as an icon.
+
+https://developers.google.com/maps/tutorials/kml/
+
+ugh...the 4 pixel icons get resized to about 25px.  ugly.  Used GPS Babel to dump the kml into csv.  Got an error with the csv to kml convert.  went to www.gpsvisualizer.com and converted pasted data to kml that finally works.
+
+http://www.w3schools.com/cssref/pr_list-style-type.asp format list
+
+Why does value work, but not textInput?  Stackoverflow knows -- http://stackoverflow.com/questions/25517277/why-is-knockout-js-textinput-binding-not-working
+
+Been struck for days on getting indexOf to work.
+Read a bunch of stuff that did not help.  Not listed here.
+
+http://www.knockmeout.net/2011/06/10-things-to-know-about-knockoutjs-on.html - make a debug div on the page.  Ah-hA!!! here is what i missed before " in a binding if you use an observable in an expression, then you need to reference it as a function."
+
+Unspeakable frustration....stll unable to toggle visbility on an array item. Cannot figure out how to pass variables back and forth while iterating over an array of arrays containing strings that may or may not contain the search term.  
+
+Starting that section over, using http://knockoutjs.com/documentation/fn.html as a starting point.
+Whew..that worked.  Now have a test page to use as an example for the project.
+
+Finally have the list changing with search terms, but cannot figure out the google map.  Can pass all the data out of ko as a json, but am unable to update it.
+
+found http://jsfiddle.net/t9wcC/ -- I can put the google inside the ko object?  trying that now.--It worked, but does not update.
+
+http://stackoverflow.com/questions/12722925/google-maps-and-knockoutjs
+http://jsfiddle.net/schmidlop/5eTRV/10/ example of two maps on a page.
+ 
+http://stackoverflow.com/questions/22127275/remove-an-element-from-observablearray-inside-another-observablearray-in-knockou?rq=1
+ 
+What does ko.utils.unwrapObservable do?
+ 
+From http://stackoverflow.com/questions/17354247/knockout-cant-access-observablearray-from-inside-model?rq=1
+ 
+1f down vote accepted
+var root = this;
+Add that line to the outermost viewmodel and use it in the inner viewmodels.
+
+This is where I learned how to make the map markers observed
+
+http://hoonzis.blogspot.com/2012/03/knockoutjs-and-google-maps-binding.html and http://jsfiddle.net/Wt3B8/23/
+
+https://developers.google.com/maps/documentation/javascript/markers
+http://alistapart.com/article/getoutbindingsituations
+http://stackoverflow.com/questions/6502566/google-markers-setvisible-true-false-show-hide -> ad saw to use mmarkers[0].setVisible(false);, not mmarkers[0].setVisible = false;  I'm gonna read this in 5 years and ROFL
+
+Want to read my marker data from a json file so that I can reuse the program for many maps.
+http://api.jquery.com/jquery.getjson/
+http://stackoverflow.com/questions/2541949/problems-with-jquery-getjson-using-local-files-in-chrome -- hopefully this is not an issue when on a webserver.  put a backup copy inside the js file for now.
+
+http://getbootstrap.com/getting-started/
+
+http://stackoverflow.com/questions/15668762/using-google-map-with-bootstrap-but-responsive-doesnt-work  Method 3 in Smartik's answer does the trick :-)
+
+ok,small clean up left for css and html.  will need some better words to replace placeholder text.
+
+Now for the API 
+Will use https://www.strava.com/segments/1179271 for now.  Need to go ride the route with sravarunningto make the wholething a segment.  will do an existing segment to get everything working.
+
+oooh, i can make segment from past data..here....https://www.strava.com/activities/312626148?segment_created=true...https://www.strava.com/segments/9583770
+
+meagar's answer on http://stackoverflow.com/questions/19730040/strava-v3-api-js-get-data
+strava docs + experiments
+https://www.strava.com/api/v3/segments/9583770?&access_token=5a056ffacbea314928b43827ec071886b170dfeb&callback=? works to get segmentdata
+ 
+https://www.strava.com/api/v3/segments/1179271?&access_token=5a056ffacbea314928b43827ec071886b170dfeb&callback=?  --> Just my ride on this busy segment
+
+https://www.strava.com/api/v3/segments/1179271/leaderboard?&access_token=5a056ffacbea314928b43827ec071886b170dfeb&callback=?  gets names,all_efforts gets more rides, but has ids not names
+
+For the Strava API, I more or less copied the code from the Wikipedia JSONP example in the Udacity AJAX class.
+
+http://stackoverflow.com/questions/5899337/proper-way-to-make-html-nested-list
+http://stackoverflow.com/questions/2235029/should-i-use-table-or-ul
+
+https://css-tricks.com/fixing-tables-long-strings/ because a long string pushes the whole page over to the left.
+
+making infowindows, having trouble soritng out attaching them to the markers.
+https://developers.google.com/maps/documentation/javascript/infowindows
+http://you.arenot.me/2010/06/29/google-maps-api-v3-0-multiple-markers-multiple-infowindows/
+
+OK, that got an infowindow hopping to each marker.  now to add the info...
+
+yelp is too hard.  Need PHP or some back end solution?
+Expedia looks like a winner. Will try that....some days later...I'm denied.  No key for me.
+
+http://developer.ean.com/docs/hotel-list
+oh, have to join https://signup.cj.com/member/4095049/publisher/advertisers/findAdvertisers.cj#{"pageNumber":1,"publisherId":4550710,"pageSize":"50","geographicSource":"","relationshipStatus":"pending_applications","sortColumn":"advertiserName","sortDescending":false}
+
+while waiting for authorization to use a hotel finding API...
+
+http://www.cleancss.com/css-beautify/
+http://jsbeautifier.org/
+
+http://humaan.com/custom-html-markers-google-maps/ -- oooo, looks difficult, stuff about making prototypes of markers etc.   will read again in a year or two.  Don't need it as the marker seems to let me add whatever property I need.  whew.
+
+http://stackoverflow.com/questions/3381700/google-maps-v3-loading-infowindow-content-via-ajax
+http://stackoverflow.com/questions/28333987/google-map-api-v3-load-infowindow-content-via-setcontent-using-ajax
+https://learn.jquery.com/ajax/jquery-ajax-methods/
+http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/
+http://stackoverflow.com/questions/824234/what-is-a-callback-function
+http://alistapart.com/article/taminglists
+http://www.dirtymarkup.com/  tidy the html
+
