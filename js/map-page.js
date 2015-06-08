@@ -77,7 +77,7 @@ function createMap(track, waypoints) {
 	//adds all the waypoints in [gpsdata/samefilename.json]	to the googlemap
 	var i = 0;
 	var markers = [];
-	var waypoints;
+
 	for (waypoints in wptData.waypoints) {
 		if (wptData.waypoints.hasOwnProperty(waypoints)){
 			var myLatlng = new google.maps.LatLng(wptData.waypoints[i].lat, wptData.waypoints[i].lng);
@@ -128,11 +128,11 @@ function loadTripAdvisor(marker, lat, lng, distance, infowindow, activeMap){
 						poiHTML = poiHTML + poi;
 						}}
 				
-			};
+			}
 			buildTripAdvisorPOIList();
 //TripAdvisor **requires** that its listings be preceeded by the following item
-			var tripAdvisorPOI = ('powered by <img class = "trip-advisor-in-infomarker" src = "http://www.tripadvisor.com/img/cdsi/langs/en/tripadvisor_logo_transp_280x60-MCID-0.png">'
-				+'<div class="list-group">'+poiHTML+ '</div>');
+			var tripAdvisorPOI = ('powered by <img class = "trip-advisor-in-infomarker" src = "http://www.tripadvisor.com/img/cdsi/langs/en/tripadvisor_logo_transp_280x60-MCID-0.png">'+
+				'<div class="list-group">'+poiHTML+ '</div>');
 			
 			infowindow.setContent(marker.html + tripAdvisorPOI);
 					
@@ -199,9 +199,7 @@ function AppViewModel() {
 
 }
 
-
-var viewModel = (new AppViewModel);
-var jsonWpts = (ko.toJS(viewModel.searchedWaypoints));
+var viewModel = new AppViewModel();
 
 //Strava shows the history of cyclists that have ridden a portion of the route.  I did make another strava segment that shows riders that did the entire ride, but as it is new, i am the only rider so far.  Also, i need to check that road consruction has not altered the route beforeI publish.  Better this short segment, 1179271, to test the code.  9583770 is the segment for the whole ride.
 function loadStrava() {
@@ -222,7 +220,7 @@ function loadStrava() {
 
 				$('#strava-container').append('<div class = "row stravaRider"><div class = "col-xs-4"><img class="profilepic"src ="' + leaderList.entries[i].athlete_profile + '"></div>' + '<div class = "col-xs-8"><table><tr><th class="left-column">Name:  </th><td class="right-column">' + leaderList.entries[i].athlete_name + '</td></tr><tr><th>Date: </th><td>' + leaderList.entries[i].start_date_local + '</td></tr><tr><th>Time: </th><td>' + (leaderList.entries[i].elapsed_time / 60) + '</td></tr></table></div></div>');
 
-			};
+			}
 
 			clearTimeout(stravaRequestTimeout);
 
@@ -240,7 +238,6 @@ $(document).ready(wptData.allTheMarkers = function() {
 	return mmarkers;
 }());
 
-var activeMap;
 $("#searching").keyup(function() {
 
 	filterMapMarkers();
