@@ -145,4 +145,5 @@ http://javascriptissexy.com/understand-javascript-callback-functions-and-use-the
 http://stackoverflow.com/questions/824234/what-is-a-callback-function
 http://alistapart.com/article/taminglists
 http://www.dirtymarkup.com/  tidy the html
+http://jshint.com/ fix up js
 

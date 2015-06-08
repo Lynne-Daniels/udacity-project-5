@@ -17,17 +17,16 @@ expects JSON file with waypoint data where each waypoint has "title", "lat", "ln
 the JSON has data for the map markers and search terms only, the track is in a KML file 
 ***************/
 var wptData = jQuery.getJSON('gpsdata/palm-beach-epic-wpts.json', function(json) {
-			console.log("wptData", wptData);
+		//	console.log("wptData", wptData); <--- use that to troubleshoot data
 });
 
 //Chrome errouniously thinks my local file violates cross origin policy and will not read my local json file 
 // This data is a backup to be used when there is an Error.  Can remove if json file works on the webhosting server
 
-if (wptData.statusText !== "OK") {
+if (wptData.statusText !== 'OK') {
 	//	console.log("unable to access json file because Chrome cross origin funny. Using data from the js file.");
-	wptData =
-
-		{
+	wptData = {
+		
 			"waypoints": [{
 				"title": "Grocery - Jupiter Farms",
 				"lat": 26.94151,
@@ -77,32 +76,34 @@ function createMap(track, waypoints) {
 
 	//adds all the waypoints in [gpsdata/samefilename.json]	to the googlemap
 	var i = 0;
-	var markers = new Array();
+	var markers = [];
 	var waypoints;
 	for (waypoints in wptData.waypoints) {
-
-		var myLatlng = new google.maps.LatLng(wptData.waypoints[i].lat, wptData.waypoints[i].lng);
-		var infowindow = new google.maps.InfoWindow({
-			content: ""
-		});
-		var marker = new google.maps.Marker({
-			position: myLatlng,
-			title: wptData.waypoints[i].title,
-			visible: true,
-			html: wptData.waypoints[i].info,
-			map: activeMap
-		});
-		markers.push(marker);
-	//	console.log("markerarray", markers[i]);
-		google.maps.event.addListener(markers[i], 'click', function() {
-
-			loadTripAdvisor(this, this.position.A, this.position.F,.5, infowindow, activeMap);
-
-		});
+		if (wptData.waypoints.hasOwnProperty(waypoints)){
+			var myLatlng = new google.maps.LatLng(wptData.waypoints[i].lat, wptData.waypoints[i].lng);
+			var infowindow = new google.maps.InfoWindow({
+				content: ""
+			});
+			var marker = new google.maps.Marker({
+				position: myLatlng,
+				title: wptData.waypoints[i].title,
+				visible: true,
+				html: wptData.waypoints[i].info,
+				map: activeMap
+			});
+			markers.push(marker);
+		//	console.log("markerarray", markers[i]);
+			google.maps.event.addListener(markers[i], 'click', function() {
+	
+				loadTripAdvisor(this, this.position.A, this.position.F, 0.5, infowindow, activeMap);
+			
+			});
+		}
 		i++;
+		
 	}
 	return markers;
-};
+}
 
 function loadTripAdvisor(marker, lat, lng, distance, infowindow, activeMap){
 	var tripAdvisorUrl = 'http://api.tripadvisor.com/api/partner/2.0/map/'+lat+','+lng+'?key=a2ff485704cd4a168145dc9772247229&distance='+distance;
@@ -115,15 +116,15 @@ function loadTripAdvisor(marker, lat, lng, distance, infowindow, activeMap){
 		{
 			var poiHTML = ''; // a big string containing all the HTML to make a list of local services
 			function buildTripAdvisorPOIList(){
-				var poi; 
+				var poi;
 				if (json.data.length == 0)
-					{poiHTML = "TripAdvisor found no items within a half mile of this location.";}
+					{poiHTML = 'TripAdvisor found no items within a half mile of this location.';}
 				else{
 					for (var i = 0; i < json.data.length; i++)
-						{poi = ('<a href="'+json.data[i].web_url+'"'+'class="list-group-item active"><h4 class="list-group-item-heading">'
-						+json.data[i].category.localized_name+': '+json.data[i].name+'</h4><p class="list-group-item-text">'
-						+json.data[i].address_obj.address_string +'</p><p class="list-group-item-text">'
-						+json.data[i].distance+' miles to the ' +json.data[i].bearing+'</p></a>');
+						{poi = ('<a href="'+json.data[i].web_url+'"'+'class="list-group-item"><h4 class="list-group-item-heading">'+
+						json.data[i].category.localized_name+': '+json.data[i].name+'</h4><p class="list-group-item-text">'+
+						json.data[i].address_obj.address_string +'</p><p class="list-group-item-text">'+
+						json.data[i].distance+' miles to the ' +json.data[i].bearing+'</p></a>');
 						poiHTML = poiHTML + poi;
 						}}
 				
@@ -142,10 +143,10 @@ function loadTripAdvisor(marker, lat, lng, distance, infowindow, activeMap){
 	    // Code to run if the request fails; the raw request and
     // status codes are passed to the function
     error: function( xhr, status, errorThrown ) {
-        infowindow.setContent(marker.html+"TripAdvisor data not availale"+"</div>");
+        infowindow.setContent(marker.html+'TripAdvisor data not availale'+'</div>');
         infowindow.open(activeMap, marker);
-        console.log( "Error: " + errorThrown );
-        console.log( "Status: " + status );
+        console.log( 'Error: ' + errorThrown );
+        console.log( 'Status: ' + status );
         console.dir( xhr );
     },
  
@@ -166,11 +167,8 @@ ko.observableArray.fn.filterBySearchTerm = function(propName, matchValue) {
 			var current = allItems[i];
 			if ((((ko.unwrap(current)[propName])().indexOf(matchValue())) > (-1)) || (matchValue() == undefined)) {
 				matchingItems.push(current);
-
-
 			}
 		}
-
 		return matchingItems;
 	}, this);
 };
@@ -199,24 +197,24 @@ function AppViewModel() {
 
 	this.searchedWaypoints = this.waypoints.filterBySearchTerm("title", this.searchTerm);
 
-};
+}
 
 
-viewModel = new AppViewModel;
-jsonWpts = ko.toJS(viewModel.searchedWaypoints);
+var viewModel = (new AppViewModel);
+var jsonWpts = (ko.toJS(viewModel.searchedWaypoints));
 
 //Strava shows the history of cyclists that have ridden a portion of the route.  I did make another strava segment that shows riders that did the entire ride, but as it is new, i am the only rider so far.  Also, i need to check that road consruction has not altered the route beforeI publish.  Better this short segment, 1179271, to test the code.  9583770 is the segment for the whole ride.
 function loadStrava() {
 
 	var stravaUrl = 'https://www.strava.com/api/v3/segments/1179271/leaderboard?&access_token=5a056ffacbea314928b43827ec071886b170dfeb&callback=stravaCallback';
 	var stravaRequestTimeout = setTimeout(function() {
-		$('#strava-header').text("Strava Data Did Not Download -- Refresh to Try Again");
-		$('#strava-header').css("color", "red");
-		console.log("strava failed");
+		$('#strava-header').text('Strava Data Did Not Download -- Refresh to Try Again');
+		$('#strava-header').css('color', 'red');
+		console.log('strava failed');
 	}, 8000);
 	$.ajax({
 		url: stravaUrl,
-		dataType: "jsonp",
+		dataType: 'jsonp',
 		success: function(response) {
 			var leaderList = response;
 			for (var i = 0; i < leaderList.entries.length; i++) {
@@ -231,7 +229,7 @@ function loadStrava() {
 		}
 	});
 	return false;
-};
+}
 
 //initialize and create a Google Map
 wptData.allTheMarkers = "";

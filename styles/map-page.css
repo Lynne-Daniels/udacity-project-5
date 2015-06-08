@@ -4,6 +4,7 @@ body {
     margin: 2px;
     padding: 2px
 }
+
 article {
     padding: 1.5em;
 }
@@ -15,6 +16,7 @@ article {
     padding-bottom: 100%;
     /*Can change dimensions of map by changing padding: ie. Ratio 16:9 ( 100%/16*9 = 56.25% ) */
 }
+
 .map-container .map-canvas {
     position: absolute;
     top: 0;
@@ -24,6 +26,7 @@ article {
     margin: 0;
     padding: 0;
 }
+
 #map-canvas {
     width: 100%;
     margin: 2px;
@@ -39,37 +42,44 @@ table {
     margin-bottom: 16.5%;
     white-space: nowrap;
 }
+
 td {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .left-column {
     width: 25%;
 }
+
 .right-column {
     width: 75%;
 }
 li {
     list-style-type: none;
 }
+
 #strava-container img {
     width: 100%;
     margin-top: 16.5%;
     margin-bottom: 16.5%;
 }
+
 .my-profile-pic{
 	max-width: 250px;
 	width: 100%;
 }
 .container-fluid {
-    background-color: #FFFF64;
+    background-color: #ffff64;
 }
+
 .row {
     background-color: white;
 }
+
 .stravaRider {
-    border: solid #FFFF64 10px;
+    border: solid #ffff64 10px;
 }
 
 aside{
@@ -78,13 +88,9 @@ aside{
 	font-size: 1.2em;
 }
 
-
-
 /*formats items inside the googlemap infoWindo */
 .trip-advisor-in-infomarker {
 	width: 33%;
 	margin: 2px 2px 2px 2px;
 	max-width: 100%;
-	
-	
 }

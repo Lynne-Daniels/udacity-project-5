@@ -37,3 +37,7 @@ show points of interest that the riders need to know about.
 			(Remember those old phone bills that said "This page intentionally left blank." It's like that -- easier to mail a blank page that to fix it.)
 		f. palm-beach-epic-jupiter-start10.kml - track data served on a web host
 		g. json - goal is to use only jsons, but this version is optional - see comments in js file
+		
+To run, download all files into the same folder or directory.  Open index.html in a web browser.  To filter points of interest,
+type all or part of the search term into the case-sensitive search box at the top of the page.  To learn about services close to any
+map marker, click the marker.
